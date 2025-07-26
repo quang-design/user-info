@@ -57,4 +57,25 @@ declare global {
 	}
 }
 
+// Layout Data interface for SEO
+export interface LayoutData {
+	seo: {
+		title: string;
+		description: string;
+		keywords: string;
+		author: string;
+		url: string;
+		siteName: string;
+		type: string;
+		image: string;
+		imageAlt: string;
+		locale: string;
+		twitterCard: string;
+		twitterSite?: string;
+		themeColor: string;
+		canonical: string;
+	};
+	user: App.Locals['user'];
+}
+
 export {};
