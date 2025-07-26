@@ -2,8 +2,11 @@
 	import '../app.css';
 	import type { LayoutData } from '../app.d.ts';
 	import type { LayoutProps } from './$types';
+	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 
 	let { children, data }: LayoutProps & { data: LayoutData } = $props();
+
+	injectAnalytics();
 </script>
 
 <svelte:head>
@@ -69,6 +72,6 @@
 	</script>
 </svelte:head>
 
-<main class="max-w-2xl p-4">
+<main class="max-w-lg p-4">
 	{@render children()}
 </main>
