@@ -1,2 +1,17 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+	import type { PageData } from './$types';
+	import { marked } from 'marked';
+	import { textRendering } from '$lib/attachments/text-streaming';
+	let { data }: { data: PageData } = $props();
+
+	let response = $derived(marked.parse(data.response));
+
+	// $inspect(response);
+</script>
+
+<pre
+	class="w-full wrap-break-word whitespace-pre-wrap"
+	{@attach textRendering}>{@html response}</pre>
+
+<style>
+</style>

@@ -4,4 +4,6 @@
 	let { children } = $props();
 </script>
 
-{@render children()}
+<main class="max-w-2xl p-4">
+	{@render children()}
+</main>
