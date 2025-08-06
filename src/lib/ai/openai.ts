@@ -12,3 +12,32 @@ export async function generate(input: string) {
 	});
 	return response.output_text;
 }
+
+export async function stream(input: string) {
+	const stream = await client.responses.create({
+		model: 'gpt-4.1',
+		input: [
+			{
+				role: 'user',
+				content: input
+			}
+		],
+		stream: true
+	});
+
+	return new ReadableStream({
+		async start(controller) {
+			for await (const event of stream) {
+				if (event.type === 'response.output_text.delta') {
+					controller.enqueue(event.delta);
+				}
+				if (event.type === 'response.completed') {
+					controller.close();
+					break;
+				}
+				// Add a small delay for illustration purposes
+				await new Promise((resolve) => setTimeout(resolve, 50));
+			}
+		}
+	});
+}
