@@ -7,35 +7,39 @@
 
 	let poetry = $state('');
 	let markedPoetry = $derived(marked(poetry, { gfm: true, breaks: true }));
+	let loadPromise: Promise<void> | null = $state(null);
 
 	onMount(() => {
-		getPoetry();
+		loadPromise = getPoetry();
 	});
 
-	async function getPoetry() {
-		try {
-			const res = await fetch('/api', {
-				method: 'POST'
-			});
+	async function getPoetry(): Promise<void> {
+		const res = await fetch('/api', {
+			method: 'POST'
+		});
 
-			if (!res.body) throw new Error('No response body');
+		if (!res.ok) {
+			throw new Error(`Request failed: ${res.status} ${res.statusText}`);
+		}
 
-			const reader = res.body.getReader();
-			const decoder = new TextDecoder();
+		if (!res.body) {
+			throw new Error('No response body');
+		}
 
-			while (true) {
-				const { done, value } = await reader.read();
-				if (done) break;
+		const reader = res.body.getReader();
+		const decoder = new TextDecoder();
 
-				const chunk = decoder.decode(value);
-				setTimeout(() => {
-					poetry += chunk;
-				}, 500);
-			}
-		} catch (error) {
-			console.error('Error:', error);
+		while (true) {
+			const { done, value } = await reader.read();
+			if (done) break;
+
+			const chunk = decoder.decode(value);
+			poetry += chunk;
 		}
 	}
+
+	$inspect('poetry', poetry);
+	// $inspect('markedPoetry', markedPoetry);
 </script>
 
 <svelte:head>
@@ -49,15 +53,22 @@
 	<link rel="canonical" href={data.seo.canonical} />
 </svelte:head>
 
-{#await markedPoetry}
-	Loading poetry...
-{:then markedPoetry}
-	<pre class="w-full wrap-break-word whitespace-pre-wrap">
-		{@html markedPoetry}
-	</pre>
-{:catch error}
-	Error: {error.message}
-{/await}
+{#if loadPromise}
+	{#await loadPromise}
+		{#if !markedPoetry}
+			<p>Loading poetry...</p>
+		{/if}
+		<pre class="w-full wrap-break-word whitespace-pre-wrap">
+			{@html markedPoetry}
+		</pre>
+	{:then}
+		<pre class="w-full wrap-break-word whitespace-pre-wrap">
+			{@html markedPoetry}
+		</pre>
+	{:catch error}
+		<p class="text-red-600">Error: {error.message}</p>
+	{/await}
+{/if}
 
 <style>
 </style>

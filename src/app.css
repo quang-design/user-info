@@ -7,7 +7,7 @@
 
 @layer base {
 	body {
-		@apply font-mono text-sm;
+		@apply min-h-screen bg-black/50 bg-[url(/background.jpg)] bg-cover bg-center bg-no-repeat font-mono text-sm text-white bg-blend-multiply;
 	}
 
 	h1 {

@@ -72,6 +72,6 @@
 	</script>
 </svelte:head>
 
-<main class="max-w-lg p-4">
+<main class="max-w-lg p-6">
 	{@render children()}
 </main>
