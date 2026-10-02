@@ -5,9 +5,14 @@ const client = new OpenAI({
 	apiKey: OPENAI_API_KEY
 });
 
+const poemRequest = {
+	model: 'gpt-6-luna',
+	reasoning: { effort: 'none' as const }
+};
+
 export async function generate(input: string) {
 	const response = await client.responses.create({
-		model: 'gpt-4.1',
+		...poemRequest,
 		input
 	});
 	return response.output_text;
@@ -15,7 +20,7 @@ export async function generate(input: string) {
 
 export async function stream(input: string) {
 	const stream = await client.responses.create({
-		model: 'gpt-4.1',
+		...poemRequest,
 		input: [
 			{
 				role: 'user',

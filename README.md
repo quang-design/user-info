@@ -30,7 +30,7 @@ This application collects comprehensive visitor information from both server-sid
 
 ### AI Poetry Generation
 
-- **OpenAI Integration**: Uses GPT-4.1 for content generation
+- **OpenAI Integration**: Uses gpt-6-luna for content generation
 - **David Whyte Style**: Emulates the renowned poet's voice
 - **Markdown Output**: Formatted with title (h1) and structured content
 - **Real-time Rendering**: Streaming text effects with custom attachments
@@ -39,7 +39,7 @@ This application collects comprehensive visitor information from both server-sid
 
 - **Framework**: SvelteKit 5 with TypeScript
 - **Styling**: Tailwind CSS v4
-- **AI**: OpenAI GPT-4.1
+- **AI**: OpenAI gpt-6-luna
 - **Package Manager**: pnpm
 - **Additional Libraries**:
   - `marked` for Markdown parsing
@@ -122,7 +122,7 @@ The `hooks.server.ts` file in the `src/` directory (not `src/routes/`) contains 
 
 ### AI Integration
 
-The system uses OpenAI's GPT-4.1 model with a specific prompt that:
+The system uses OpenAI's gpt-6-luna model with reasoning effort none and a prompt that:
 
 - Adopts David Whyte's poetic style
 - Transforms each line of user data into poetry
